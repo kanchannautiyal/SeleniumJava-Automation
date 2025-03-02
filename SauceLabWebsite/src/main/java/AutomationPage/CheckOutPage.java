@@ -1,7 +1,11 @@
 package AutomationPage;
 
+import java.util.Scanner;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckOutPage extends BasePage{
@@ -41,16 +45,32 @@ public class CheckOutPage extends BasePage{
 		waitForElementAndSendKeys(firstName, firstname);
 		driver.findElement(lastName).sendKeys(lastname);
 		driver.findElement(zipCode).sendKeys(zipcode);
-		driver.findElement(ContinueBtn).click();
+		System.out.println("Inside checkoutDetails method...");
+	}
+	
+	public void continueCheckout() {
+		  wait.until(ExpectedConditions.visibilityOfElementLocated((By) ContinueBtn ));
+		  wait.until(ExpectedConditions.presenceOfElementLocated((By) ContinueBtn)); // Wait for clickability
+		    wait.until(ExpectedConditions.elementToBeClickable(ContinueBtn)).click();
+		System.out.println("Clicked on the Continue Button");
 	}
 	
 	
+	private By By(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public void checkoutComplete() {
-		driver.findElement(finishBtn).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By)finishBtn));
+		wait.until(ExpectedConditions.presenceOfElementLocated((By) finishBtn)); 
+		// Scroll the element into view (important if it's not visible)
+		WebElement complete = driver.findElement(finishBtn);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", complete);
+		wait.until(ExpectedConditions.elementToBeClickable((By)finishBtn)).click();
+		System.out.println("Click on the FInish button");
 	}
-	public void ContinueCheckout() {
-		driver.findElement(ContinueBtn).click();
-	}
+	
 	
 	public String OrderPlacedtext() {
 		String orderconfirmation = driver.findElement(By.className("complete-header")).getText();
@@ -58,15 +78,18 @@ public class CheckOutPage extends BasePage{
 	}
 	
 	
-	public void OrderPlaced() {
+	public String OrderPlaced() {
 		 String text =driver.findElement(By.xpath("//*[@id=\"header_container\"]/div[2]/span")).getText();
 	       if(text.equalsIgnoreCase("Checkout: Complete!")){
 	    	   System.out.println("Order placed confirmation done");
+	    		return text;
 			
 		}
 	       else {
 	    	   System.out.println("Order doesen't placed");
+	    		return text;
 	       }
+	
 		
 	}
 	

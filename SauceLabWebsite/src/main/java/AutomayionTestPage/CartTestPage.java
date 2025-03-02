@@ -22,7 +22,22 @@ public class CartTestPage extends BaseTest {
 	// Completing a checkout process and verifying the order confirmation.
 	
 	
-	
+	// Correct this code because it does not verify properly , As we can see when we add a product it just changes the name of button from ADDTOCART to REMOVE
+    // so , change the logic to verify if product is added or not 
+    
+    @BeforeMethod(dependsOnMethods = "setup")
+	public void setupPages() {
+		
+		  if (driver == null) {
+		        throw new IllegalStateException("Driver is not initialized!");
+		    }
+		
+	   inven = new InventoryPage(driver);
+	   cart = new CartPage(driver);
+	     checkout = new CheckOutPage(driver);
+	}
+    
+    
 	@Test(priority=1)
 	public void TestProd() {
 		
@@ -41,17 +56,6 @@ public class CartTestPage extends BaseTest {
 		Assert.assertTrue(currenturl.contains("cart"),"User failed to navigate to cart page");	
 	}
 	
-    @BeforeMethod(dependsOnMethods = "setup")
-	public void setupPages() {
-		
-		  if (driver == null) {
-		        throw new IllegalStateException("Driver is not initialized!");
-		    }
-		
-	   inven = new InventoryPage(driver);
-	   cart = new CartPage(driver);
-	     checkout = new CheckOutPage(driver);
-	}
 	
 	
 	@DataProvider(name = "CheckoutProcess")
@@ -81,7 +85,7 @@ public class CartTestPage extends BaseTest {
 	    
 	    cart.ProceedToCheckout();
 	    checkout.CheckoutDetails(firstname, lastname, Zipcode);
-	    checkout.ContinueCheckout();
+	   
 	    checkout.checkoutComplete();
 	    
 	    String ConfirmationMsg = checkout.OrderPlacedtext();

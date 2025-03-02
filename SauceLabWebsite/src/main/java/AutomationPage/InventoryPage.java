@@ -2,6 +2,7 @@ package AutomationPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
@@ -19,9 +20,11 @@ public class InventoryPage extends BasePage {
 	//	System.out.println("Shopping page opens");
 		
 	//}
-		
+	WebElement addToCartBtn = driver.findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
+
+	
 	private By AddToCartFirstProd = By.xpath("//*[@id=\"add-to-cart-sauce-labs-bolt-t-shirt\"]");
-	private By cartIcon = By.xpath("//*[@id=\"header_container\"]/div[2]/div/span/select");
+	private By cartIcon = By.xpath("//*[@id=\"shopping_cart_container\"]/a");
 	private By cartDropdown = By.xpath("//*[@id=\"shopping_cart_container\"]/a");
 	private By ContinueSHopping = By.xpath("//*[@id=\"continue-shopping\"]");
      
@@ -30,8 +33,8 @@ public class InventoryPage extends BasePage {
 		System.out.println("Current URL: " + driver.getCurrentUrl());
 		Assert.assertTrue(driver.getCurrentUrl().contains("inventory"), "User is NOT on the inventory page!");
 
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(AddToCartFirstProd));  // Wait for visibility
-	    wait.until(ExpectedConditions.presenceOfElementLocated(AddToCartFirstProd)); // Wait for clickability
+	    wait.until(ExpectedConditions.visibilityOfElementLocated((By) AddToCartFirstProd));  // Wait for visibility
+	    wait.until(ExpectedConditions.presenceOfElementLocated((By) AddToCartFirstProd)); // Wait for clickability
 	    wait.until(ExpectedConditions.elementToBeClickable(AddToCartFirstProd)).click();
 	    System.out.println("Product added to cart successfully.");
 	  
@@ -39,9 +42,9 @@ public class InventoryPage extends BasePage {
 
 	public void GoToCart() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(cartIcon));
-		wait.until(ExpectedConditions.elementToBeClickable(cartIcon));
-		waitForElementAndClick(cartIcon);
-		//driver.findElement(cartIcon).click();
+		wait.until(ExpectedConditions.elementToBeClickable(cartIcon)).click(); 
+		System.out.println("We are in cart page");
+        //driver.findElement(cartIcon).click();
 	}
 	
 	public void ContinueSHop() {
